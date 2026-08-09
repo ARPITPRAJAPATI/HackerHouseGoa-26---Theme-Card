@@ -16,12 +16,26 @@ const HHGoaCard = React.forwardRef(({ cardRef, data, photoOffset, onPhotoDrag },
   const localRef = useRef(null);
   const targetRef = ref || cardRef || localRef;
   const [isDragging, setIsDragging] = useState(false);
+  const [templateDataUrl, setTemplateDataUrl] = useState("/idCardTemplate.png");
   
   // 3D Holographic Foil Tilt & Mouse Gyroscope Tracking State
   const [tilt, setTilt] = useState({ rx: 0, ry: 0, glossX: 50, glossY: 50, active: false });
 
   const dragStartRef = useRef({ x: 0, y: 0 });
   const initialOffsetRef = useRef({ x: 0, y: 0, zoom: 1 });
+
+  React.useEffect(() => {
+    fetch("/idCardTemplate.png")
+      .then((res) => res.blob())
+      .then((blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (reader.result) setTemplateDataUrl(reader.result);
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch(() => {});
+  }, []);
 
   const {
     name = "",
@@ -126,9 +140,10 @@ const HHGoaCard = React.forwardRef(({ cardRef, data, photoOffset, onPhotoDrag },
 
         {/* ── Template Background ── */}
         <img
-          src="/idCardTemplate.png"
+          src={templateDataUrl || "/idCardTemplate.png"}
           alt="Template background"
           className="hh-card-background"
+          crossOrigin="anonymous"
           draggable={false}
         />
 

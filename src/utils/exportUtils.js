@@ -1,7 +1,7 @@
 import { toPng } from "html-to-image";
 
 /**
- * Helper to trigger a browser file download from a Data URL.
+ * Helper to trigger a browser file download from a Data URL or Blob URL.
  */
 function triggerDownload(dataUrl, fileName) {
   const link = document.createElement("a");
@@ -55,30 +55,46 @@ export async function exportCardToPng(cardElement, fileName = "HH-Goa-Builder-Pa
     // 3. Wait 120ms for DOM layout and base64 fonts to settle
     await new Promise((r) => setTimeout(r, 120));
 
-    // 4. Export high resolution PNG using html-to-image
+    // 4. Export high resolution PNG using html-to-image with multi-tier fallback
     let dataUrl;
+    const filterFoil = (node) => {
+      if (node.classList && node.classList.contains("hh-holographic-foil")) {
+        return false;
+      }
+      return true;
+    };
+
     try {
+      // Tier 1: High Quality 2x PNG
       dataUrl = await toPng(cardElement, {
         quality: 1.0,
         pixelRatio: 2,
         cacheBust: false,
         backgroundColor: "#fff8eb",
-        filter: (node) => {
-          // Exclude dynamic holographic shimmer layer during PNG export
-          if (node.classList && node.classList.contains("hh-holographic-foil")) {
-            return false;
-          }
-          return true;
-        },
+        filter: filterFoil,
       });
     } catch (primaryErr) {
-      console.warn("Primary toPng failed, retrying fallback...", primaryErr);
-      dataUrl = await toPng(cardElement, {
-        quality: 0.95,
-        pixelRatio: 1.5,
-        cacheBust: false,
-        backgroundColor: "#fff8eb",
-      });
+      console.warn("Primary toPng failed, trying Tier 2 fallback with skipFonts...", primaryErr);
+      try {
+        // Tier 2: PNG with skipFonts to bypass remote Google Fonts CORS restrictions
+        dataUrl = await toPng(cardElement, {
+          quality: 0.95,
+          pixelRatio: 1.5,
+          skipFonts: true,
+          cacheBust: false,
+          backgroundColor: "#fff8eb",
+          filter: filterFoil,
+        });
+      } catch (fallbackErr) {
+        console.warn("Tier 2 toPng failed, trying Tier 3 basic capture...", fallbackErr);
+        // Tier 3: Basic 1x PNG fallback
+        dataUrl = await toPng(cardElement, {
+          quality: 0.9,
+          pixelRatio: 1,
+          skipFonts: true,
+          cacheBust: true,
+        });
+      }
     }
 
     if (dataUrl) {
