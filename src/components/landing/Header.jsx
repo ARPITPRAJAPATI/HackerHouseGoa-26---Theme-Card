@@ -15,6 +15,8 @@ export function Header({ onBackToHome, onOpenGenerator, onOpenHypeModal }) {
           <img
             src="/assets/2-47.svg"
             alt="2:47 PM Studio"
+            width="160"
+            height="40"
             className="lp-logo-img"
           />
         </button>

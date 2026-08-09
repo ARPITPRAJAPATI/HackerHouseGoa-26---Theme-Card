@@ -150,6 +150,8 @@ const HHGoaCard = React.forwardRef(({ cardRef, data, photoOffset, onPhotoDrag },
         <img
           src={templateDataUrl || "/idCardTemplate.png"}
           alt="Template background"
+          width="864"
+          height="1223"
           className="hh-card-background"
           crossOrigin="anonymous"
           draggable={false}

@@ -52,6 +52,9 @@ export function HeroSection({ onOpenGenerator }) {
             <img
               src="/assets/hacker-house-title.png"
               alt="HACKER HOUSE"
+              width="540"
+              height="180"
+              fetchpriority="high"
               className="lp-hacker-house-img hero-3d-logo-img"
             />
 
@@ -60,6 +63,8 @@ export function HeroSection({ onOpenGenerator }) {
               <img
                 src="/assets/goa_hindi.svg"
                 alt="गोवा"
+                width="120"
+                height="60"
                 className="lp-stamp-img hero-3d-stamp-img"
               />
             </div>

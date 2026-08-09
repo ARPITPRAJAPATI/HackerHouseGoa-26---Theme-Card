@@ -13,16 +13,30 @@
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#063725" />
 
-  <!-- Primary Meta Tags -->
+  <!-- Primary Meta Tags & Canonical -->
   <meta name="title" content="Hacker House Goa | Builder Cards" />
   <meta name="description" content="Personalize & generate your official builder pass for Hacker House Goa 2026." />
+  <link rel="canonical" href="https://hacker-house-goa-26-theme-card.vercel.app/" />
 
-  <!-- Google Fonts -->
+  <!-- Critical Asset Preloading for Fast LCP -->
+  <link rel="preload" as="image" href="/assets/hacker-house-title.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/goa-beach-bg.png" fetchpriority="high" />
+
+  <!-- Non-Render-Blocking Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
+    rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,800;0,6..96,900&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@700;900&family=Cormorant+Garamond:wght@700&family=JetBrains+Mono:wght@700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Rozha+One&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;0,6..96,800;0,6..96,900&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@700;900&family=Cormorant+Garamond:wght@700&family=JetBrains+Mono:wght@700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Rozha+One&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    />
+  </noscript>
 </head>
 
 <body>

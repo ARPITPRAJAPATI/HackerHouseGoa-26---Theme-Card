@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hacker-house-goa-26-theme-card.vercel.app/sitemap.xml
