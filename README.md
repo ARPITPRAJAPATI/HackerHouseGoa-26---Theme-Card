@@ -20,7 +20,7 @@
 
 **Hacker House Goa 2026 Builder Pass Generator** is a state-of-the-art, interactive web app built to empower builders, developers, and creators attending Hacker House Goa 2026. Custom-designed with rich glassmorphism aesthetics, dynamic 3D holographic tilt physics, and seamless social sharing features, this app lets attendees personalize, download, and share their official high-resolution Builder Pass on X (Twitter) with one click.
 
-🎟️ **Live Web Application**: [https://hhgoa-own-id-card.vercel.app](https://hhgoa-own-id-card.vercel.app)
+🎟️ **Live Web Application**: [https://hacker-house-goa-26-theme-card.vercel.app/](https://hhgoa-own-id-card.vercel.app)
 
 ---
 
