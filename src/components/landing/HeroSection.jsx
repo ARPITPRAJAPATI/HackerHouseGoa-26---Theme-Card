@@ -45,7 +45,7 @@ export function HeroSection({ onOpenGenerator }) {
             }}
           >
             <img
-              src="/assets/Hacker house.png"
+              src="/assets/hacker-house-title.png"
               alt="HACKER HOUSE"
               className="lp-hacker-house-img hero-3d-logo-img"
             />
