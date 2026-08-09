@@ -931,6 +931,11 @@
     white-space: nowrap !important;
     flex-shrink: 0 !important;
   }
+
+  .lp-hacker-house-img {
+    height: clamp(5.0rem, 18vw, 8rem) !important;
+    max-width: 98vw !important;
+  }
 }
 
 /* ── 320–480px (small mobile / DevTools responsive mode) ── */
@@ -954,6 +959,11 @@
     font-size: 0.64rem !important;
     height: 28px !important;
     letter-spacing: 0.02em !important;
+  }
+
+  .lp-hacker-house-img {
+    height: clamp(4.5rem, 17vw, 7rem) !important;
+    max-width: 98vw !important;
   }
 
   .lp-subbar {
