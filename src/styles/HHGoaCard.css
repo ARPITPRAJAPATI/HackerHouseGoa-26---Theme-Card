@@ -4,6 +4,7 @@
   margin: 0 auto;
   user-select: none;
   perspective: 1000px;
+  will-change: transform;
 }
 
 .hh-card-container {
@@ -13,8 +14,10 @@
   overflow: hidden;
   container-type: inline-size;
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 25px rgba(254, 225, 1, 0.25);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
   transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .hh-holographic-foil {

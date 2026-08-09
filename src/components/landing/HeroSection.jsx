@@ -3,6 +3,7 @@ import "./landing.css";
 
 export function HeroSection({ onOpenGenerator }) {
   const containerRef = useRef(null);
+  const rafRef = useRef(null);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0, active: false });
 
   const handleMouseMove = (e) => {
@@ -16,13 +17,17 @@ export function HeroSection({ onOpenGenerator }) {
     const px = x / rect.width;
     const py = y / rect.height;
 
-    const ry = (px - 0.5) * 24; // Y-axis rotation (-12deg to +12deg)
-    const rx = (0.5 - py) * 24; // X-axis rotation (-12deg to +12deg)
+    const ry = (px - 0.5) * 20; // Y-axis rotation (-10deg to +10deg)
+    const rx = (0.5 - py) * 20; // X-axis rotation (-10deg to +10deg)
 
-    setTilt({ rx, ry, active: true });
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      setTilt({ rx, ry, active: true });
+    });
   };
 
   const handleMouseLeave = () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
     setTilt({ rx: 0, ry: 0, active: false });
   };
 

@@ -69,6 +69,8 @@ const HHGoaCard = React.forwardRef(({ cardRef, data, photoOffset, onPhotoDrag },
 
   const endDrag = () => setIsDragging(false);
 
+  const cardRafRef = useRef(null);
+
   // ── 3D Card Gyroscope & Holographic Reflection Handler ──
   const handleCardMouseMove = (e) => {
     if (isDragging) {
@@ -85,19 +87,25 @@ const HHGoaCard = React.forwardRef(({ cardRef, data, photoOffset, onPhotoDrag },
     const py = y / rect.height;
 
     // Rotate range: -12deg to +12deg
-    const ry = (px - 0.5) * 24;
-    const rx = (0.5 - py) * 24;
+    const ry = (px - 0.5) * 20;
+    const rx = (0.5 - py) * 20;
+    const glossX = Math.round(px * 100);
+    const glossY = Math.round(py * 100);
 
-    setTilt({
-      rx,
-      ry,
-      glossX: Math.round(px * 100),
-      glossY: Math.round(py * 100),
-      active: true
+    if (cardRafRef.current) cancelAnimationFrame(cardRafRef.current);
+    cardRafRef.current = requestAnimationFrame(() => {
+      setTilt({
+        rx,
+        ry,
+        glossX,
+        glossY,
+        active: true,
+      });
     });
   };
 
   const handleCardMouseLeave = () => {
+    if (cardRafRef.current) cancelAnimationFrame(cardRafRef.current);
     setTilt((prev) => ({ ...prev, rx: 0, ry: 0, active: false }));
     endDrag();
   };

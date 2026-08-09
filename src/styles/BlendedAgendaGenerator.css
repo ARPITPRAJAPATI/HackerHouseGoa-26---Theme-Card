@@ -37,7 +37,8 @@
   background-position: center top;
   background-repeat: no-repeat;
   filter: blur(4px);
-  transform: scale(1.03);
+  will-change: transform;
+  transform: scale(1.03) translateZ(0);
   z-index: 0;
 }
 
