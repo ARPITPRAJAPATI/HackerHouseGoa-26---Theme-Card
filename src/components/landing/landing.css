@@ -1,0 +1,947 @@
+/* ============================================================
+   LANDING PAGE — Production-polished, fully responsive
+   Self-contained (zero Tailwind dependency)
+   ============================================================ */
+
+/* ── Design Tokens ── */
+:root {
+  --lp-green: #026834;
+  --lp-green-dark: #014321;
+  --lp-green-deep: #011a0d;
+  --lp-yellow: #FEE101;
+  --lp-pink: #FF007A;
+  --lp-white: #ffffff;
+
+  /* Fluid spacing */
+  --lp-pad-x: clamp(1rem, 5vw, 3rem);
+  --lp-pad-y-header: clamp(0.875rem, 2.5vw, 2rem);
+  --lp-logo-h: clamp(2.5rem, 5.5vw, 4.5rem);
+  /* 40px → 72px */
+}
+
+/* ── Font helpers ── */
+.lp-font-mono {
+  font-family: 'Space Mono', monospace;
+}
+
+.lp-font-serif {
+  font-family: 'Playfair Display', 'Cinzel', serif;
+}
+
+.lp-font-deva {
+  font-family: 'Rozha One', serif;
+}
+
+/* ================================================================
+   PAGE SHELL
+   Use a simple column flex.  Hero gets flex:1 and self-centers.
+   Do NOT use space-between — that is the cause of the mobile gap.
+   ================================================================ */
+.lp-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--lp-green);
+  background-image: url('/assets/goa-beach-bg.png');
+  background-size: cover;
+  background-position: center bottom;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  color: var(--lp-white);
+}
+
+/* ================================================================
+   DITHERING BACKGROUND
+   ================================================================ */
+.lp-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--lp-green);
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ================================================================
+   GLOW ORBS — GPU-only (opacity + transform)
+   ================================================================ */
+.lp-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  will-change: opacity, transform;
+}
+
+.lp-orb-top {
+  top: -8%;
+  left: 18%;
+  width: clamp(180px, 32vw, 500px);
+  height: clamp(180px, 32vw, 500px);
+  background: radial-gradient(circle, rgba(254, 225, 1, 0.18) 0%, transparent 65%);
+  filter: blur(60px);
+  animation: lpOrbBreathe 8s ease-in-out infinite;
+}
+
+.lp-orb-bot {
+  bottom: -8%;
+  right: 12%;
+  width: clamp(160px, 28vw, 460px);
+  height: clamp(160px, 28vw, 460px);
+  background: radial-gradient(circle, rgba(254, 225, 1, 0.10) 0%, transparent 65%);
+  filter: blur(80px);
+  animation: lpOrbBreathe 11s ease-in-out infinite reverse;
+}
+
+@keyframes lpOrbBreathe {
+
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(1.00);
+  }
+
+  50% {
+    opacity: 1.00;
+    transform: scale(1.10);
+  }
+}
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+.lp-header {
+  position: relative;
+  z-index: 30;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+
+  padding: var(--lp-pad-y-header) var(--lp-pad-x);
+
+  font-family: 'Space Mono', monospace;
+  animation: lpFadeDown 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+@keyframes lpFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Logo button ── */
+.lp-logo-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: var(--lp-logo-h);
+  width: auto;
+  flex-shrink: 0;
+  outline: none;
+  transition: transform 240ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 180ms ease;
+}
+
+.lp-logo-btn:hover {
+  transform: scale(1.06);
+}
+
+.lp-logo-btn:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+}
+
+.lp-logo-img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  background: transparent;
+}
+
+/* ── Nav cluster ── */
+.lp-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 3vw, 2.5rem);
+  flex-shrink: 0;
+}
+
+/* ── CHECK HYPE ── */
+.lp-check-hype-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0.5rem 0;
+  /* generous vertical tap area */
+  margin: 0;
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--lp-white);
+  /* fluid: 0.75rem on 320px → 1.3rem on 1440px */
+  font-size: clamp(0.9rem, 1.9vw, 1.6rem);
+  outline: none;
+  white-space: nowrap;
+  transition: color 200ms ease,
+    transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lp-check-hype-btn:hover {
+  color: var(--lp-yellow);
+  transform: scale(1.06);
+}
+
+.lp-check-hype-btn:active {
+  transform: scale(0.95);
+}
+
+/* Keyboard focus ring */
+.lp-check-hype-btn:focus-visible {
+  outline: 2px solid var(--lp-yellow);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ── CREATE CTA button ── */
+.lp-create-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  /* fluid: 0.85rem → 1.35rem */
+  font-size: clamp(1rem, 1.9vw, 1.6rem);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  line-height: 1;
+
+  color: var(--lp-green);
+  background-color: var(--lp-yellow);
+
+  /* fluid padding */
+  padding: clamp(0.65rem, 1.3vw, 1.1rem) clamp(1.25rem, 2.8vw, 2.5rem);
+
+  /* Diagonal pink/yellow stripe border — signature look */
+  border-style: solid;
+  border-width: clamp(2px, 0.3vw, 4px);
+  border-color: transparent;
+  border-image: repeating-linear-gradient(45deg,
+      var(--lp-pink), var(--lp-pink) 6px,
+      var(--lp-yellow) 6px, var(--lp-yellow) 12px) 8;
+
+  white-space: nowrap;
+  outline: none;
+
+  /* Layered shadow — depth */
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.30),
+    0 8px 24px rgba(0, 0, 0, 0.20);
+
+  transition:
+    transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 200ms ease;
+}
+
+.lp-create-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    0 8px 20px rgba(0, 0, 0, 0.35),
+    0 16px 40px rgba(0, 0, 0, 0.20),
+    0 0 24px rgba(254, 225, 1, 0.22);
+}
+
+.lp-create-btn:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.20),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.lp-create-btn:focus-visible {
+  outline: 2px solid var(--lp-white);
+  outline-offset: 3px;
+}
+
+/* ================================================================
+   HERO SECTION
+   flex:1 fills all space between header and footer.
+   justify-content:center vertically centers the content group.
+   ================================================================ */
+.lp-hero {
+  position: relative;
+  z-index: 10;
+
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding-top: clamp(3rem, 7vh, 6rem);
+  padding-left: var(--lp-pad-x);
+  padding-right: var(--lp-pad-x);
+
+  animation: lpFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+@keyframes lpFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Inner content wrapper */
+.lp-hero-inner {
+  text-align: center;
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* fluid gap between title group and subbar */
+  gap: clamp(0.75rem, 2vw, 2rem);
+}
+
+/* ── Title image + stamp ── */
+.lp-hero-title-wrap {
+  /* outer: full-width row, centers the image box */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* inner: shrinks to exactly the image size so % hits the image */
+.lp-title-img-box {
+  position: relative;
+  display: inline-block;
+  /* width = image width */
+  line-height: 0;
+  /* removes inline gap below img */
+  flex-shrink: 0;
+}
+
+/*
+  Hero title: ~10% smaller than before.
+  Old: clamp(6rem, 20vw, 19rem)
+  New: clamp(5rem, 17vw, 17rem)   ← ~10% reduction top and bottom
+*/
+.lp-hacker-house-img {
+  height: clamp(5rem, 17vw, 17rem);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 10;
+  /* Breathing glow */
+  animation: lpTitleGlow 7s ease-in-out infinite;
+  will-change: filter;
+}
+
+@keyframes lpTitleGlow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 clamp(14px, 2vw, 36px) rgba(254, 225, 1, 0.35));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 clamp(22px, 3vw, 52px) rgba(254, 225, 1, 0.60));
+  }
+}
+
+/*
+  Stamp — always centred between the two words.
+  Uses translate(-50%, -50%) on a absolute child.
+  Floating animation is on this wrapper.
+*/
+.lp-stamp-wrap {
+  position: absolute;
+  /*
+   * left: 54%  = gap between "HACKER" and "HOUSE" inside the PNG.
+   * HACKER takes ~54% of the image width, so the space starts there.
+   * Positioned relative to .lp-title-img-box (the image itself), not outer wrapper.
+   */
+  left: 54%;
+  top: 58%;
+  /* slightly below centre */
+  z-index: 20;
+  pointer-events: none;
+  animation: lpStampFloat 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes lpStampFloat {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(9deg);
+  }
+
+  50% {
+    transform: translate(-50%, calc(-50% - clamp(6px, 1.2vw, 14px))) rotate(9deg);
+  }
+}
+
+.lp-stamp-img {
+  /* fluid: 40px → 12.5rem — 1.25× previous size */
+  height: clamp(3rem, 9.6vw, 12rem);
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 clamp(10px, 2vw, 28px) rgba(255, 0, 122, 0.9));
+}
+
+/* ================================================================
+   SUBBAR  (timeline pill)
+   ================================================================ */
+.lp-subbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.5rem, 2vw, 1rem);
+
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  color: var(--lp-yellow);
+  letter-spacing: 0.09em;
+  /* fluid font */
+  font-size: clamp(0.65rem, 1.25vw, 1.05rem);
+
+  /* fluid vertical padding for better height */
+  padding: clamp(0.6rem, 1.3vw, 1rem) clamp(1rem, 2.5vw, 1.75rem);
+
+  border-top: 1px solid rgba(254, 225, 1, 0.28);
+  border-bottom: 1px solid rgba(254, 225, 1, 0.28);
+
+  background: rgba(1, 18, 8, 0.50);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+
+  /* fluid border radius */
+  border-radius: clamp(0.5rem, 1.5vw, 1.25rem);
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.20),
+    0 8px 24px rgba(0, 0, 0, 0.18);
+
+  width: 100%;
+  max-width: 100%;
+  line-height: 1.3;
+}
+
+.lp-subbar-left {
+  flex-shrink: 0;
+}
+
+.lp-subbar-right {
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+.lp-footer {
+  position: relative;
+  z-index: 20;
+  flex-shrink: 0;
+
+  padding: clamp(0.5rem, 1.3vw, 0.875rem) var(--lp-pad-x);
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.2rem, 0.6vw, 0.4rem);
+
+  animation: lpFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+.lp-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.25rem, 0.8vw, 0.75rem);
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  /* fluid: 0.65rem → 1rem */
+  font-size: clamp(0.65rem, 1.2vw, 1rem);
+  line-height: 1.5;
+}
+
+/* #FrameInGoa in emerald green */
+.lp-footer-hash {
+  color: #10B981;
+}
+
+.lp-footer-bullet {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.lp-footer-white {
+  color: var(--lp-white);
+}
+
+.lp-footer-sub {
+  color: rgba(255, 255, 255, 0.60);
+  font-family: 'Space Mono', monospace;
+  font-weight: 500;
+  font-size: clamp(0.58rem, 1vw, 0.8rem);
+  max-width: 34rem;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ================================================================
+   INITIAL PRELOADER
+   ================================================================ */
+.lp-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: var(--lp-green);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  transition: opacity 700ms ease-out;
+  -webkit-user-select: none;
+  user-select: none;
+  will-change: opacity;
+}
+
+.lp-preloader.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lp-preloader-logo {
+  height: clamp(3rem, 9vw, 5rem);
+  width: auto;
+  object-fit: contain;
+  display: block;
+  background: transparent;
+  filter: drop-shadow(0 0 20px rgba(254, 225, 1, 0.55));
+  animation: lpPulse 2s ease-in-out infinite;
+}
+
+@keyframes lpPulse {
+
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+
+  50% {
+    opacity: 1.00;
+  }
+}
+
+/* Dual-colour spinner — yellow top arc + pink right arc */
+.lp-spinner-wrap {
+  position: relative;
+  width: clamp(2.5rem, 6vw, 3.5rem);
+  height: clamp(2.5rem, 6vw, 3.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lp-spinner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid rgba(254, 225, 1, 0.20);
+  border-top-color: var(--lp-yellow);
+  border-right-color: var(--lp-pink);
+  animation: lpSpin 0.8s linear infinite;
+  will-change: transform;
+}
+
+@keyframes lpSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lp-preloader-text {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.lp-preloader-title {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--lp-yellow);
+}
+
+.lp-preloader-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* ================================================================
+   HYPE VIDEO MODAL
+   ================================================================ */
+.lp-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.88);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 3vw, 2rem);
+  animation: lpFadeIn 220ms ease both;
+}
+
+@keyframes lpFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.lp-modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 64rem;
+  background: rgba(1, 16, 8, 0.94);
+  border-radius: clamp(0.75rem, 2vw, 1.5rem);
+  border: 2px solid rgba(254, 225, 1, 0.38);
+  overflow: hidden;
+  box-shadow:
+    0 0 80px rgba(254, 225, 1, 0.20),
+    0 0 160px rgba(0, 0, 0, 0.70);
+  animation: lpScaleIn 260ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes lpScaleIn {
+  from {
+    transform: scale(0.93);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1.00);
+    opacity: 1;
+  }
+}
+
+.lp-modal-close {
+  position: absolute;
+  top: clamp(0.5rem, 1.5vw, 1rem);
+  right: clamp(0.5rem, 1.5vw, 1rem);
+  z-index: 10;
+  width: clamp(2rem, 4vw, 3rem);
+  height: clamp(2rem, 4vw, 3rem);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: var(--lp-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color 180ms ease, transform 130ms ease;
+}
+
+.lp-modal-close:hover {
+  background-color: var(--lp-pink);
+}
+
+.lp-modal-close:active {
+  transform: scale(0.90);
+}
+
+.lp-modal-close:focus-visible {
+  outline: 2px solid var(--lp-yellow);
+  outline-offset: 2px;
+}
+
+.lp-modal-video-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: #000;
+}
+
+.lp-modal-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+   Mobile-first: base styles target 320px+
+   ================================================================ */
+
+/* ── 320–479px  (tiny phones) ── */
+@media (max-width: 479px) {
+  :root {
+    --lp-pad-x: 1rem;
+    --lp-pad-y-header: 0.75rem;
+    --lp-logo-h: 2.5rem;
+    /* 40px — still legible */
+  }
+
+  .lp-header {
+    gap: 0.5rem;
+  }
+
+  /* On tiny screens, hide CHECK HYPE to keep nav from crowding */
+  .lp-check-hype-btn {
+    display: none;
+  }
+
+  /* Larger CREATE on mobile for tap target */
+  .lp-create-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Stack subbar on very narrow screens */
+  .lp-subbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    border-radius: 0.75rem;
+  }
+
+  .lp-subbar-right {
+    display: none;
+  }
+
+  .lp-footer-links {
+    font-size: 0.65rem;
+    gap: 0.25rem 0.4rem;
+  }
+
+  .lp-footer-sub {
+    font-size: 0.6rem;
+  }
+}
+
+/* ── 480–639px  (large phones) ── */
+@media (min-width: 480px) and (max-width: 639px) {
+  :root {
+    --lp-pad-x: 1.25rem;
+    --lp-pad-y-header: 0.875rem;
+    --lp-logo-h: 2.75rem;
+  }
+
+  .lp-check-hype-btn {
+    display: block;
+  }
+
+  .lp-subbar-right {
+    display: block;
+  }
+
+  .lp-create-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.1rem;
+  }
+}
+
+/* ── 640–767px  (small tablets / landscape phones) ── */
+@media (min-width: 640px) and (max-width: 767px) {
+  :root {
+    --lp-pad-x: 1.5rem;
+    --lp-logo-h: 3rem;
+  }
+
+  .lp-check-hype-btn {
+    display: block;
+  }
+
+  .lp-subbar-right {
+    display: block;
+  }
+}
+
+/* ── 768–1023px  (tablets / iPads) ── */
+@media (min-width: 768px) {
+  :root {
+    --lp-pad-x: clamp(1.5rem, 4vw, 2.5rem);
+    --lp-logo-h: clamp(3rem, 5vw, 4rem);
+  }
+
+  .lp-check-hype-btn {
+    display: block;
+  }
+
+  .lp-subbar-right {
+    display: block;
+  }
+}
+
+/* ── 1024px+  (laptops / desktops) ── */
+@media (min-width: 1024px) {
+  :root {
+    --lp-pad-x: clamp(2rem, 5vw, 3rem);
+    --lp-logo-h: clamp(3.5rem, 5vw, 4.5rem);
+  }
+}
+
+/* ── 1920px+  (ultrawide) ── */
+@media (min-width: 1920px) {
+  .lp-page {
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+}
+
+/* ================================================================
+   REDUCED MOTION — keep spinner but remove decorative animations
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+
+  .lp-hacker-house-img,
+  .lp-stamp-wrap,
+  .lp-orb-top,
+  .lp-orb-bot,
+  .lp-preloader-logo,
+  .lp-header,
+  .lp-hero,
+  .lp-footer,
+  .lp-modal-box,
+  .lp-modal-backdrop {
+    animation: none !important;
+    transition: opacity 300ms ease !important;
+  }
+
+  /* keep spinner — it communicates loading state */
+  .lp-spinner {
+    animation: lpSpin 2s linear infinite !important;
+  }
+}
+
+/* ── 3D & Motion Enhancements for Hero ── */
+.hero-3d-perspective-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  cursor: grab;
+}
+
+.hero-3d-tilter {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hero-3d-tilter.floating-3d {
+  animation: heroFloat3D 4s ease-in-out infinite alternate;
+}
+
+@keyframes heroFloat3D {
+  0% {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px) translateY(0px);
+  }
+
+  50% {
+    transform: perspective(1000px) rotateX(3deg) rotateY(-3deg) translateZ(25px) translateY(-8px);
+  }
+
+  100% {
+    transform: perspective(1000px) rotateX(-3deg) rotateY(3deg) translateZ(10px) translateY(4px);
+  }
+}
+
+.hero-3d-logo-img {
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.45)) drop-shadow(0 2px 0px #000);
+  transition: filter 0.3s ease;
+}
+
+.hero-3d-stamp-badge {
+  transform-style: preserve-3d;
+  transform: translateZ(50px);
+}
+
+.hero-3d-stamp-img {
+  filter: drop-shadow(0 10px 20px rgba(255, 0, 122, 0.6)) drop-shadow(0 2px 0px #000);
+  animation: stampPulse 3s ease-in-out infinite alternate;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero-3d-tilter:hover .hero-3d-stamp-img {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+@keyframes stampPulse {
+  0% {
+    filter: drop-shadow(0 8px 16px rgba(255, 0, 122, 0.5)) drop-shadow(0 2px 0px #000);
+  }
+
+  100% {
+    filter: drop-shadow(0 16px 32px rgba(255, 225, 1, 0.7)) drop-shadow(0 0 25px rgba(255, 0, 122, 0.9));
+  }
+}

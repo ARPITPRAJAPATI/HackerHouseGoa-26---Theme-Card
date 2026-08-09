@@ -1,0 +1,196 @@
+/* Primary Action Button (Download High-Res Pass) */
+.btn-primary-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 20px;
+  background: var(--color-brand-green);
+  color: var(--color-brand-yellow);
+  border: 2px solid var(--color-brand-green);
+  border-radius: 14px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(6, 55, 37, 0.18);
+  width: 100%;
+}
+
+.btn-primary-action:hover:not(:disabled) {
+  background: var(--color-brand-green-hover);
+  border-color: var(--color-brand-green-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(6, 55, 37, 0.28);
+}
+
+.btn-primary-action:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary-action:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Secondary Outlined Buttons (Share to X, Generate Another Pass) */
+.btn-secondary-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 20px;
+  background: #ffffff;
+  color: var(--color-brand-green);
+  border: 2px solid var(--color-brand-green);
+  border-radius: 14px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(6, 55, 37, 0.08);
+  width: 100%;
+  text-decoration: none;
+}
+
+.btn-secondary-outline:hover {
+  background: var(--color-brand-yellow);
+  border-color: var(--color-brand-green);
+  color: var(--color-brand-green);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(6, 55, 37, 0.15);
+}
+
+.btn-secondary-outline:active {
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SHARE TO X MODAL OVERLAY
+───────────────────────────────────────────────────────────────────── */
+.share-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 55, 37, 0.45);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.share-modal-card {
+  background: #ffffff;
+  border: 2px solid var(--color-brand-green);
+  border-radius: 24px;
+  max-width: 440px;
+  width: 100%;
+  padding: 28px 24px;
+  box-shadow: 0 16px 48px rgba(6, 55, 37, 0.22);
+  text-align: center;
+  animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-status-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.modal-badge-success {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #1b5e20;
+  background: #e6f4ea;
+  border: 1px solid #2e7d32;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.share-modal-title {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--color-brand-green);
+  margin: 0 0 12px 0;
+}
+
+.share-modal-instruction {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--color-brand-cream);
+  border: 1.5px solid rgba(6, 55, 37, 0.18);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.paperclip-icon-box {
+  width: 42px;
+  height: 42px;
+  background: #ffffff;
+  border: 1.5px solid var(--color-brand-green);
+  border-radius: 50%;
+  color: var(--color-brand-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.instruction-text {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.85rem;
+  color: #2d3748;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.btn-modal-got-it {
+  width: 100%;
+  height: 48px;
+  background: var(--color-brand-green);
+  color: var(--color-brand-yellow);
+  border: 2px solid var(--color-brand-green);
+  border-radius: 12px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: 0.98rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-modal-got-it:hover {
+  background: var(--color-brand-green-hover);
+  border-color: var(--color-brand-green-hover);
+}
+
+@media (max-width: 768px) {
+  .btn-primary-action,
+  .btn-secondary-outline {
+    height: 48px;
+    font-size: 0.9rem;
+  }
+}

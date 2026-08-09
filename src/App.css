@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-green: #036437;
+  --bg-green-dark: #002413;
+  --yellow: #FEE800;
+  --pink: #FF2A85;
+  --ink: #00180C;
+  --sand: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background-color: var(--bg-green);
+  color: var(--sand);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Paper Grain Texture Overlay */
+.grain-overlay {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 0);
+  background-size: 20px 20px;
+}
+
+/* Single-Line Display Title "HACKER HOUSE" */
+.hh-hero-title-3d {
+  font-family: var(--font-bodoni), serif;
+  font-weight: 700;
+  color: var(--yellow);
+  letter-spacing: -0.03em;
+  transform: scaleY(1.3);
+  display: inline-block;
+  line-height: 0.9;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 2px 0px #000;
+}
+
+/* 3D Tilted Hot Pink "गोवा" Sticker */
+.goa-pink-sticker-3d {
+  background: var(--pink);
+  color: var(--yellow);
+  border: 4px solid var(--yellow);
+  box-shadow: 6px 6px 0px #000000, 0 10px 25px rgba(255, 42, 133, 0.5);
+  transform: rotate(-7deg) translateZ(20px);
+  font-weight: 900;
+  line-height: 1;
+  padding: 6px 22px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.goa-pink-sticker-3d:hover {
+  transform: rotate(-3deg) scale(1.08) translateZ(30px);
+}
+
+/* Apply / Action Pattern Button */
+.hh-button-yellow {
+  background: var(--yellow);
+  color: #000000;
+  font-weight: 900;
+  padding: 10px 28px;
+  border: 3px solid #000000;
+  box-shadow: 5px 5px 0px #000000;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 10px;
+}
+.hh-button-yellow:hover {
+  background: #FFFFFF;
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0px #000000;
+}
+.hh-button-yellow:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.hh-button-pink {
+  background: var(--pink);
+  color: var(--yellow);
+  font-weight: 900;
+  padding: 12px 30px;
+  border: 3px solid var(--yellow);
+  box-shadow: 5px 5px 0px #000000, 0 0 20px rgba(255, 42, 133, 0.4);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 10px;
+}
+.hh-button-pink:hover {
+  background: #FFFFFF;
+  color: #000000;
+  border-color: #000000;
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0px #000000;
+}
+.hh-button-pink:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+/* 3D Perspective Card Wrapper */
+.card-wrapper-3d {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.card-container-3d {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--bg-green-dark);
+  border: 4px solid var(--yellow);
+  box-shadow: 12px 12px 0px #000000, 0 20px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.1s ease-out, box-shadow 0.2s ease;
+  transform-style: preserve-3d;
+}
+
+.card-container-3d:hover {
+  box-shadow: 16px 16px 0px #000000, 0 30px 60px rgba(255, 232, 0, 0.3);
+}
+
+/* Holographic Reflection Sheen Layer */
+.holographic-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  transition: opacity 0.2s ease;
+}
+
+/* High-Contrast Dark Card */
+.hh-card-dark {
+  background: rgba(0, 36, 19, 0.95);
+  border: 3px solid var(--yellow);
+  box-shadow: 8px 8px 0px #000000;
+  border-radius: 16px;
+}
