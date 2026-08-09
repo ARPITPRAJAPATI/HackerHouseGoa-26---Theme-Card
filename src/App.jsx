@@ -14,10 +14,12 @@ function App() {
   // Initialize Lenis Smooth Scroll for buttery fluid momentum scrolling
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      smoothTouch: true,
+      syncTouch: true,
+      touchMultiplier: 2.0,
     });
 
     let animationFrameId;
