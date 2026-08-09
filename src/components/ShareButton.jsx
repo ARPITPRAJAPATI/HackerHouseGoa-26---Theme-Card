@@ -16,7 +16,7 @@ const ShareButton = ({ cardRef, builderName = "Builder", builderId = "#HH-GOA-20
     const cleanId = idStr.replace(/[^a-zA-Z0-9-]/g, "");
 
     // ⚡ Optimized caption strictly under X's 280-char free limit
-    const tweetText = `🌴 Goa calling, builders answering!\n\nJust minted my Hacker House Builder Card ⚡\n👤 ${nameStr}\n🪪 ${idStr}\n\nReady to build & vibe in Goa! 🚀\n\n🎟️ Create yours → https://hhgoa-own-id-card.vercel.app\n\n#FrameInGoa #HHGoa2026 #BuildInPublic`;
+    const tweetText = `🌴 Goa calling, builders answering!\n\nJust minted my Hacker House Builder Card ⚡\n👤 ${nameStr}\n🪪 ${idStr}\n\nReady to build & vibe in Goa! 🚀\n\n🎟️ Create yours → https://hacker-house-goa-26-theme-card.vercel.app\n\n#FrameInGoa #HHGoa2026 #BuildInPublic`;
 
     const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
 
