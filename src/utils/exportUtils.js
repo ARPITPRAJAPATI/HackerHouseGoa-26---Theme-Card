@@ -1,7 +1,7 @@
 import { toPng } from "html-to-image";
 
 /**
- * Helper to trigger a browser file download from a Data URL or Blob.
+ * Helper to trigger a browser file download from a Data URL.
  */
 function triggerDownload(dataUrl, fileName) {
   const link = document.createElement("a");
@@ -18,104 +18,80 @@ function triggerDownload(dataUrl, fileName) {
 }
 
 /**
- * Pre-convert all <img> tags inside cardElement to base64 Data URLs.
- * This prevents html-to-image SVG foreignObject from dropping background layers
- * or failing on relative image paths / blob URLs.
- */
-async function inlineImagesAsDataUrls(cardElement) {
-  const imgs = Array.from(cardElement.querySelectorAll("img"));
-  await Promise.all(
-    imgs.map(
-      (img) =>
-        new Promise((resolve) => {
-          if (img.complete && img.naturalWidth !== 0) resolve();
-          else {
-            img.onload = resolve;
-            img.onerror = resolve;
-          }
-        })
-    )
-  );
-
-  await Promise.all(
-    imgs.map(async (img) => {
-      if (!img.src || img.src.startsWith("data:")) return;
-      try {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.naturalWidth || img.width || 1024;
-        canvas.height = img.naturalHeight || img.height || 1536;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL("image/png");
-        img.src = dataUrl;
-      } catch (e) {
-        console.warn("Could not inline image src:", img.src, e);
-      }
-    })
-  );
-}
-
-/**
- * Robust card exporter.
- * Pre-inlines all images as base64 Data URLs so html-to-image captures
- * background template, user photo, text overlays, and QR code with 100% fidelity.
+ * Robust card exporter using html-to-image.
+ * Captures background template, user photo, text overlays, and QR code with high fidelity.
  */
 export async function exportCardToPng(cardElement, fileName = "HH-Goa-Builder-Pass.png") {
   if (!cardElement) {
     console.error("exportCardToPng: Provided cardElement is null or invalid.");
-    return;
+    alert("Pass element not found. Please try again.");
+    return null;
   }
 
+  // Preserve original inline 3D transform & transition
+  const originalTransform = cardElement.style.transform;
+  const originalTransition = cardElement.style.transition;
+
   try {
-    // 1. Convert all internal <img> tags to inline Base64 Data URLs
-    await inlineImagesAsDataUrls(cardElement);
+    // 1. Temporarily reset 3D tilt transform to flat layout for screenshot engine
+    cardElement.style.transform = "none";
+    cardElement.style.transition = "none";
 
-    // 2. Wait a moment for layout to settle
-    await new Promise((r) => setTimeout(r, 100));
+    // 2. Wait for all <img> elements inside cardElement to finish loading
+    const imgs = Array.from(cardElement.querySelectorAll("img"));
+    await Promise.all(
+      imgs.map(
+        (img) =>
+          new Promise((resolve) => {
+            if (img.complete && img.naturalWidth !== 0) resolve();
+            else {
+              img.onload = resolve;
+              img.onerror = resolve;
+            }
+          })
+      )
+    );
 
-    // 3. Export using html-to-image with pixelRatio 3 for ultra-high res PNG
-    const dataUrl = await toPng(cardElement, {
-      quality: 1.0,
-      pixelRatio: 3,
-      cacheBust: false,
-      backgroundColor: "#fff8eb",
-      style: {
-        transform: "none",
-      },
-    });
+    // 3. Wait 120ms for DOM layout and base64 fonts to settle
+    await new Promise((r) => setTimeout(r, 120));
 
-    triggerDownload(dataUrl, fileName);
+    // 4. Export high resolution PNG using html-to-image
+    let dataUrl;
+    try {
+      dataUrl = await toPng(cardElement, {
+        quality: 1.0,
+        pixelRatio: 2,
+        cacheBust: false,
+        backgroundColor: "#fff8eb",
+        filter: (node) => {
+          // Exclude dynamic holographic shimmer layer during PNG export
+          if (node.classList && node.classList.contains("hh-holographic-foil")) {
+            return false;
+          }
+          return true;
+        },
+      });
+    } catch (primaryErr) {
+      console.warn("Primary toPng failed, retrying fallback...", primaryErr);
+      dataUrl = await toPng(cardElement, {
+        quality: 0.95,
+        pixelRatio: 1.5,
+        cacheBust: false,
+        backgroundColor: "#fff8eb",
+      });
+    }
+
+    if (dataUrl) {
+      triggerDownload(dataUrl, fileName);
+    }
+    return dataUrl;
   } catch (err) {
-    console.error("html-to-image export failed, attempting canvas fallback...", err);
-    await fallbackCanvasExport(cardElement, fileName);
-  }
-}
-
-/**
- * Direct Canvas Fallback.
- * Renders template artwork onto a 2D Canvas for 100% bulletproof offline PNG export.
- */
-async function fallbackCanvasExport(cardElement, fileName) {
-  try {
-    const canvas = document.createElement("canvas");
-    canvas.width = 1024 * 2; // 2x high res
-    canvas.height = 1536 * 2;
-    const ctx = canvas.getContext("2d");
-    ctx.scale(2, 2);
-
-    // Background
-    const bgImg = new Image();
-    bgImg.crossOrigin = "anonymous";
-    await new Promise((resolve) => {
-      bgImg.onload = resolve;
-      bgImg.onerror = resolve;
-      bgImg.src = "/idCardTemplate.png";
-    });
-    ctx.drawImage(bgImg, 0, 0, 1024, 1536);
-
-    const dataUrl = canvas.toDataURL("image/png");
-    triggerDownload(dataUrl, fileName);
-  } catch (canvasErr) {
-    console.error("Canvas fallback export failed:", canvasErr);
+    console.error("Card PNG export failed:", err);
+    alert("Export failed: " + (err?.message || err));
+    return null;
+  } finally {
+    // Restore original tilt transform
+    cardElement.style.transform = originalTransform;
+    cardElement.style.transition = originalTransition;
   }
 }

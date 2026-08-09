@@ -138,6 +138,7 @@
 
   font-family: 'Space Mono', monospace;
   animation: lpFadeDown 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+  width: 100%;
 }
 
 .lp-header-left {
@@ -156,6 +157,44 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+/* VIBE CHECK Pill Button — Always visible at far right on all devices */
+.lp-vibe-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: rgba(0, 31, 14, 0.88);
+  color: #FEE101;
+  border: 2px solid #FEE101;
+  padding: clamp(0.35rem, 1vw, 0.55rem) clamp(0.75rem, 1.8vw, 1.25rem);
+  border-radius: 25px;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.lp-vibe-btn:hover {
+  background: #FEE101;
+  color: #000000;
+  border-color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(254, 225, 1, 0.3);
+}
+
+.lp-vibe-btn:active {
+  transform: translateY(0);
 }
 
 @keyframes lpFadeDown {
@@ -838,32 +877,82 @@
    Mobile-first: base styles target 320px+
    ================================================================ */
 
-/* ── 320–479px  (tiny phones) ── */
-@media (max-width: 479px) {
-  :root {
-    --lp-pad-x: 1rem;
-    --lp-pad-y-header: 0.75rem;
-    --lp-logo-h: 2.5rem;
-    /* 40px — still legible */
-  }
-
+/* ── Mobile/Tablet Header Responsive Alignment (<= 768px) ── */
+@media (max-width: 768px) {
   .lp-header {
-    gap: 0.5rem;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0.5rem 0.85rem !important;
+    box-sizing: border-box !important;
+    gap: 0.5rem !important;
   }
 
-  /* On tiny screens, hide CHECK HYPE to keep nav from crowding */
-  .lp-check-hype-btn {
-    display: none;
+  .lp-header-left {
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
-  /* Larger CREATE on mobile for tap target */
-  .lp-create-btn {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.1rem;
-    letter-spacing: 0.1em;
+  .lp-logo-btn {
+    height: 28px !important;
+    width: auto !important;
   }
 
-  /* Stack subbar on very narrow screens */
+  .lp-logo-img {
+    height: 28px !important;
+    max-width: 110px !important;
+    width: auto !important;
+    object-fit: contain !important;
+  }
+
+  .lp-header-center {
+    display: none !important;
+  }
+
+  .lp-header-right {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+  }
+
+  .lp-vibe-btn {
+    display: inline-flex !important;
+    padding: 0.3rem 0.65rem !important;
+    font-size: 0.68rem !important;
+    height: 30px !important;
+    border-width: 1.5px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* ── 320–480px (small mobile / DevTools responsive mode) ── */
+@media (max-width: 480px) {
+  .lp-header {
+    padding: 0.4rem 0.65rem !important;
+  }
+
+  .lp-logo-btn {
+    height: 24px !important;
+  }
+
+  .lp-logo-img {
+    height: 24px !important;
+    max-width: 90px !important;
+  }
+
+  .lp-vibe-btn {
+    display: inline-flex !important;
+    padding: 0.25rem 0.55rem !important;
+    font-size: 0.64rem !important;
+    height: 28px !important;
+    letter-spacing: 0.02em !important;
+  }
+
   .lp-subbar {
     flex-direction: column;
     align-items: flex-start;
@@ -885,57 +974,11 @@
   }
 }
 
-/* ── 480–639px  (large phones) ── */
-@media (min-width: 480px) and (max-width: 639px) {
-  :root {
-    --lp-pad-x: 1.25rem;
-    --lp-pad-y-header: 0.875rem;
-    --lp-logo-h: 2.75rem;
-  }
-
-  .lp-check-hype-btn {
-    display: block;
-  }
-
-  .lp-subbar-right {
-    display: block;
-  }
-
-  .lp-create-btn {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.1rem;
-  }
-}
-
-/* ── 640–767px  (small tablets / landscape phones) ── */
-@media (min-width: 640px) and (max-width: 767px) {
-  :root {
-    --lp-pad-x: 1.5rem;
-    --lp-logo-h: 3rem;
-  }
-
-  .lp-check-hype-btn {
-    display: block;
-  }
-
-  .lp-subbar-right {
-    display: block;
-  }
-}
-
-/* ── 768–1023px  (tablets / iPads) ── */
-@media (min-width: 768px) {
+/* ── 768px+ (tablets & desktops) ── */
+@media (min-width: 769px) {
   :root {
     --lp-pad-x: clamp(1.5rem, 4vw, 2.5rem);
     --lp-logo-h: clamp(3rem, 5vw, 4rem);
-  }
-
-  .lp-check-hype-btn {
-    display: block;
-  }
-
-  .lp-subbar-right {
-    display: block;
   }
 }
 

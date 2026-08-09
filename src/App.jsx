@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import CardGenerator from "./components/CardGenerator";
 import { Header } from "./components/landing/Header";
 import { HeroSection } from "./components/landing/HeroSection";
-
 import { HypeVideoModal } from "./components/landing/HypeVideoModal";
-
-import { ArrowLeft } from "lucide-react";
-import "./App.css";
-
 import BlendedAgendaGenerator from "./components/BlendedAgendaGenerator";
+import "./App.css";
 
 function App() {
   const [viewMode, setViewMode] = useState("landing"); // "landing" | "generator"
@@ -30,6 +25,7 @@ function App() {
         <Header
           onBackToHome={openLanding}
           onOpenGenerator={openGenerator}
+          onOpenHypeModal={() => setIsHypeModalOpen(true)}
         />
 
         {/* ── Hero: HACKER HOUSE title fills full screen ── */}

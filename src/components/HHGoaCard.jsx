@@ -12,8 +12,9 @@ function scaledFontSize(str, maxChars, maxCqi, minCqi) {
   return `clamp(${minCqi}px, ${cqi.toFixed(2)}cqi, ${(maxCqi * 6).toFixed(0)}px)`;
 }
 
-const HHGoaCard = ({ cardRef, ref, data, photoOffset, onPhotoDrag }) => {
-  const targetRef = ref || cardRef;
+const HHGoaCard = React.forwardRef(({ cardRef, data, photoOffset, onPhotoDrag }, ref) => {
+  const localRef = useRef(null);
+  const targetRef = ref || cardRef || localRef;
   const [isDragging, setIsDragging] = useState(false);
   const [templateDataUrl, setTemplateDataUrl] = useState("/idCardTemplate.png");
   
@@ -199,6 +200,6 @@ const HHGoaCard = ({ cardRef, ref, data, photoOffset, onPhotoDrag }) => {
       </div>
     </div>
   );
-};
+});
 
 export default HHGoaCard;

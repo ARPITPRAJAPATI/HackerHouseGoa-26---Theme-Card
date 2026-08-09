@@ -1,36 +1,74 @@
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { exportCardToPng } from "../utils/exportUtils";
 import "../styles/Buttons.css";
 
 const ShareButton = ({ cardRef, builderName = "Builder", builderId = "#HH-GOA-2026" }) => {
   const [isSharing, setIsSharing] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleShareToX = async () => {
+    setIsSharing(true);
+    setIsCopied(false);
     const nameStr = builderName ? builderName.trim() : "Builder";
     const idStr = builderId ? builderId.trim() : "#HH-GOA-2026";
     const cleanId = idStr.replace(/[^a-zA-Z0-9-]/g, "");
 
-    const tweetText = `🌴 Built my Hacker Goa House Builder Card!\n\n👤 ${nameStr}\n🪪 Builder ID: ${idStr}\n\nExcited to build, ship, and connect with amazing builders in Goa. 🚀\n\nCreate your own Builder Card:\nhttps://hhgoa-own-id-card.vercel.app\n\n#FrameInGoa #HHGoa2026`;
+    // ⚡ Optimized caption strictly under X's 280-char free limit
+    const tweetText = `🌴 Goa calling, builders answering!\n\nJust minted my Hacker House Builder Card ⚡\n👤 ${nameStr}\n🪪 ${idStr}\n\nReady to build & vibe in Goa! 🚀\n\n🎟️ Create yours → https://hhgoa-own-id-card.vercel.app\n\n#FrameInGoa #HHGoa2026 #BuildInPublic`;
+
     const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
 
-    // ✅ Open X SYNCHRONOUSLY during the user-gesture frame.
-    // Any `await` before window.open() causes browsers to detach the popup
-    // permission, resulting in the blank tab that never navigates.
+    // 1. Open X intent synchronously in new tab
     window.open(twitterIntentUrl, "_blank", "noopener,noreferrer");
-
-    // Show guidance modal right away
     setShowShareModal(true);
 
-    // Download the card image independently (async, after popup is safely open)
+    // 2. Download high-res PNG card image AND copy PNG blob to Clipboard
     try {
-      setIsSharing(true);
       if (cardRef && cardRef.current) {
         const downloadFileName = `HH-Goa-Builder-Card-${cleanId || "Pass"}.png`;
-        await exportCardToPng(cardRef.current, downloadFileName);
+
+        // Create a promise for the image Blob
+        const blobPromise = new Promise(async (resolve, reject) => {
+          try {
+            const dataUrl = await exportCardToPng(cardRef.current, downloadFileName);
+            if (!dataUrl) {
+              reject(new Error("Card PNG export returned null"));
+              return;
+            }
+            const res = await fetch(dataUrl);
+            const blob = await res.blob();
+            resolve(blob);
+          } catch (err) {
+            reject(err);
+          }
+        });
+
+        // ⚡ Synchronously initiate navigator.clipboard.write with ClipboardItem Promise
+        // This preserves Chrome user activation context so Ctrl+V image paste works 100%!
+        if (navigator.clipboard && window.ClipboardItem) {
+          try {
+            const clipboardItem = new ClipboardItem({ "image/png": blobPromise });
+            await navigator.clipboard.write([clipboardItem]);
+            setIsCopied(true);
+          } catch (clipErr) {
+            console.warn("Direct ClipboardItem Promise write error:", clipErr);
+            try {
+              const blob = await blobPromise;
+              const fallbackItem = new ClipboardItem({ [blob.type || "image/png"]: blob });
+              await navigator.clipboard.write([fallbackItem]);
+              setIsCopied(true);
+            } catch (fbErr) {
+              console.warn("Clipboard fallback error:", fbErr);
+            }
+          }
+        } else {
+          await blobPromise;
+        }
       }
     } catch (err) {
-      console.error("Error exporting card:", err);
+      console.error("Error exporting card for share:", err);
     } finally {
       setIsSharing(false);
     }
@@ -42,23 +80,28 @@ const ShareButton = ({ cardRef, builderName = "Builder", builderId = "#HH-GOA-20
         onClick={handleShareToX}
         disabled={isSharing}
         className="btn-secondary-outline"
+        style={{
+          color: "#FEE101",
+          borderColor: "#FEE101",
+        }}
       >
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
         </svg>
-        <span>{isSharing ? "Preparing X Post..." : "Share to X"}</span>
+        <span style={{ color: "#FEE101" }}>{isSharing ? "Preparing X Post..." : "Share to X"}</span>
       </button>
 
-      {/* ── Lightweight Guidance Modal Overlay ── */}
-      {showShareModal && (
+      {/* ── Lightweight Guidance Modal Overlay via Portal ── */}
+      {showShareModal && ReactDOM.createPortal(
         <div className="share-modal-backdrop" onClick={() => setShowShareModal(false)}>
           <div className="share-modal-card" onClick={(e) => e.stopPropagation()}>
             <div className="modal-status-badges">
               <span className="modal-badge-success">✅ X Post Opened</span>
-              <span className="modal-badge-success">📸 Builder Card Downloaded</span>
+              {isCopied && <span className="modal-badge-success">📋 Card Copied to Clipboard</span>}
+              <span className="modal-badge-success">📸 Saved to Downloads</span>
             </div>
 
-            <h3 className="share-modal-title">Attach Image to Your X Post</h3>
+            <h3 className="share-modal-title">Attach Your Builder Card</h3>
 
             <div className="share-modal-instruction">
               <div className="paperclip-icon-box">
@@ -67,7 +110,7 @@ const ShareButton = ({ cardRef, builderName = "Builder", builderId = "#HH-GOA-20
                 </svg>
               </div>
               <p className="instruction-text">
-                Your high-resolution Builder Card has been downloaded. Attach the downloaded image to your X post before hitting <strong>Publish</strong>!
+                Press <strong>Ctrl + V</strong> (or Paste) in the X post box to instantly attach your copied Builder Card, or pick it from your Downloads!
               </p>
             </div>
 
@@ -79,7 +122,8 @@ const ShareButton = ({ cardRef, builderName = "Builder", builderId = "#HH-GOA-20
               Got it
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

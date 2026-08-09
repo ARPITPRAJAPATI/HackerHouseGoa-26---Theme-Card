@@ -133,6 +133,7 @@ export default function BlendedAgendaGenerator({ onBackToHome }) {
         <div className="center-card-stage">
           <HHGoaCard
             ref={cardRef}
+            cardRef={cardRef}
             data={cardData}
             photoOffset={photoOffset}
             onPhotoDrag={(newOffset) => setPhotoOffset(newOffset)}

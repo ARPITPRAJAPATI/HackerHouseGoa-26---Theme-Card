@@ -1,7 +1,8 @@
 import React from "react";
+import { Sparkles } from "lucide-react";
 import "./landing.css";
 
-export function Header({ onBackToHome, onOpenGenerator }) {
+export function Header({ onBackToHome, onOpenGenerator, onOpenHypeModal }) {
   return (
     <header className="lp-header">
       {/* Left — 2:47 PM Studio logo */}
@@ -105,8 +106,17 @@ export function Header({ onBackToHome, onOpenGenerator }) {
         </button>
       </div>
 
-      {/* Right — Balancer container */}
-      <div className="lp-header-right" />
+      {/* Right — VIBE CHECK Pill Button */}
+      <div className="lp-header-right">
+        <button
+          type="button"
+          onClick={onOpenHypeModal}
+          className="lp-vibe-btn"
+        >
+
+          <span>VIBE CHECK</span>
+        </button>
+      </div>
     </header>
   );
 }

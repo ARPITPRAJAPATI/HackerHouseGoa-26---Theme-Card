@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { RotateCcw } from "lucide-react";
 import { readImageAsDataUrl } from "../utils/imageUtils";
 import "../styles/UploadPhoto.css";
 
@@ -182,8 +183,14 @@ const UploadPhoto = ({ photoUrl, onPhotoSelect, photoOffset, onOffsetChange, hid
                   className="zoom-slider"
                   aria-label="Photo zoom level"
                 />
-                <button type="button" onClick={handleResetPosition} className="reset-pos-btn">
-                  Reset
+                <button
+                  type="button"
+                  onClick={handleResetPosition}
+                  className="reset-pos-btn"
+                  title="Reset photo position & zoom"
+                  aria-label="Reset photo position & zoom"
+                >
+                  <RotateCcw size={14} />
                 </button>
               </div>
 
