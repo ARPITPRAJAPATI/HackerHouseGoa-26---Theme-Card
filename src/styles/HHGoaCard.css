@@ -9,11 +9,11 @@
 .hh-card-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 1024 / 1536;
+  aspect-ratio: 864 / 1223;
   overflow: hidden;
   container-type: inline-size;
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 20px rgba(254, 232, 0, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 25px rgba(254, 225, 1, 0.25);
   transform-style: preserve-3d;
 }
 
@@ -36,13 +36,13 @@
   bottom: 12px;
   right: 16px;
   z-index: 20;
-  background: rgba(0, 0, 0, 0.65);
-  border: 1px solid #fee800;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1.5px solid #FEE101;
   padding: 3px 10px;
   border-radius: 6px;
-  font-family: monospace;
+  font-family: 'Space Mono', monospace;
   font-size: clamp(8px, 1.8cqi, 11px);
-  color: #fee800;
+  color: #FEE101;
   letter-spacing: 0.1em;
   font-weight: 700;
   backdrop-filter: blur(4px);
@@ -62,14 +62,14 @@
 
 .hh-photo-frame {
   position: absolute;
-  top: 43.2617%;
-  left: 50.1465%;
-  width: 45.0195%;
-  height: 32.2917%;
+  top: 56.5%;
+  left: 49.8%;
+  width: 42.5%;
+  height: 29.5%;
   transform: translate(-50%, -50%);
-  border-radius: 50%;
-  clip-path: ellipse(50% 50% at 50% 50%);
-  -webkit-clip-path: ellipse(50% 50% at 50% 50%);
+  border-radius: 18px;
+  clip-path: inset(0 round 18px);
+  -webkit-clip-path: inset(0 round 18px);
   overflow: hidden;
   background: transparent;
   display: flex;
@@ -100,21 +100,21 @@
   align-items: center;
   justify-content: center;
   color: #063725;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Space Mono", monospace;
   font-size: clamp(10px, 3cqi, 14px);
-  font-weight: 600;
+  font-weight: 700;
   gap: 6px;
   text-align: center;
-  opacity: 0.5;
+  opacity: 0.7;
   padding: 20px;
 }
 
 .hh-name-overlay {
   position: absolute;
-  top: 63.607%;
-  left: 20.5%;
-  width: 59.0%;
-  height: 6.120%;
+  top: 83.5%;
+  left: 8%;
+  width: 84%;
+  height: 6%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
@@ -125,23 +125,23 @@
 }
 
 .hh-name-text {
-  font-family: "PERANDORY CONDENSED", "Perandory Condensed", "Perandory", "Barlow Condensed", "Oswald", "League Gothic", "Plus Jakarta Sans", sans-serif;
-  font-weight: 800;
-  color: #fff8eb;
+  font-family: "Space Mono", "Plus Jakarta Sans", sans-serif;
+  font-weight: 900;
+  color: #063725;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   text-align: center;
   white-space: nowrap;
   line-height: 1;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
 }
 
 .hh-role-overlay {
   position: absolute;
-  top: 69.922%;
-  left: 30.5%;
-  width: 38.8%;
-  height: 3.841%;
+  top: 89.5%;
+  left: 12%;
+  width: 76%;
+  height: 4.8%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
@@ -152,15 +152,20 @@
 }
 
 .hh-role-text {
-  font-family: "PERANDORY CONDENSED", "Perandory Condensed", "Perandory", "Bodoni Moda", "Cinzel Decorative", "Cormorant Garamond", serif;
+  font-family: "Space Mono", monospace;
   font-weight: 800;
-  color: #e52b50;
+  color: #000000;
+  background: #FEE101;
+  border: 1.5px solid #000000;
+  padding: 3px 12px;
+  border-radius: 8px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: center;
   white-space: nowrap;
   line-height: 1;
-  font-size: clamp(10px, 3.4cqi, 23px);
+  font-size: clamp(10px, 3.2cqi, 20px);
+  box-shadow: 2px 2px 0px #000000;
 }
 
 .hh-builder-id-overlay {

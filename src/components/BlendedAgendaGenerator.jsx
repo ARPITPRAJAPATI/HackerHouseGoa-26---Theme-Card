@@ -139,59 +139,38 @@ export default function BlendedAgendaGenerator({ onBackToHome }) {
           />
         </div>
 
-        {/* ── FRAME 3 (Top Right - Pink Board): BUILDER CLASS & STACK ── */}
+        {/* ── FRAME 3 (Top Right - Pink Board): HOW TO BUILD INSTRUCTIONS ── */}
         <div className="hanging-frame frame-top-right">
           <div>
             <div className="frame-title">
-              <span>3. BUILDER CLASS</span>
-              <button
-                type="button"
-                onClick={handleRerollClass}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "#FFFFFF",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                  fontSize: "0.75rem",
-                  fontWeight: "bold",
-                }}
-                title="Reroll class attributes"
-              >
-                <RefreshCw size={14} />
-                <span>REROLL</span>
-              </button>
+              <span>3. HOW TO BUILD</span>
+              <Sparkles size={16} />
             </div>
 
-            <div style={{ margin: "0.3rem 0" }}>
-              <span
-                style={{
-                  display: "inline-block",
-                  background: "#FEE101",
-                  color: "#000",
-                  padding: "4px 10px",
-                  borderRadius: "6px",
-                  fontWeight: 900,
-                  fontSize: "0.85rem",
-                  fontFamily: "'Space Mono', monospace",
-                  marginBottom: "0.5rem",
-                }}
-              >
-                {randomAttrs.builderClass}
-              </span>
-            </div>
+            <div className="instructions-container">
+              <div className="instruction-step">
+                <span className="step-badge">01</span>
+                <div className="step-text">
+                  <strong>Fill Details</strong>
+                  <p>Enter your Name & Stack in Box 1.</p>
+                </div>
+              </div>
 
-            <div className="blended-input-label" style={{ opacity: 0.9 }}>
-              BEACH BAG PERKS:
-            </div>
-            <div className="perks-list">
-              {randomAttrs.beachBag.map((perk, i) => (
-                <span key={i} className="perk-chip">
-                  {perk}
-                </span>
-              ))}
+              <div className="instruction-step">
+                <span className="step-badge">02</span>
+                <div className="step-text">
+                  <strong>Upload Photo</strong>
+                  <p>Drop your avatar photo in Box 2.</p>
+                </div>
+              </div>
+
+              <div className="instruction-step">
+                <span className="step-badge">03</span>
+                <div className="step-text">
+                  <strong>Get Your Pass</strong>
+                  <p>Download & Share your ID card from Box 4!</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
