@@ -8,7 +8,7 @@ export function InitialPreloader() {
   useEffect(() => {
     const imagesToPreload = [
       "/assets/2-47.svg",
-      "/assets/Hacker house.png",
+      "/assets/hacker-house-title.png",
       "/assets/goa_hindi.svg",
       "/assets/frame-a.svg",
       "/assets/BuilderPass.png",
