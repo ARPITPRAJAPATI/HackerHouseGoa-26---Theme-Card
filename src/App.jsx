@@ -3,6 +3,7 @@ import { Header } from "./components/landing/Header";
 import { HeroSection } from "./components/landing/HeroSection";
 import { HypeVideoModal } from "./components/landing/HypeVideoModal";
 import BlendedAgendaGenerator from "./components/BlendedAgendaGenerator";
+import SeamlessVideoBackground from "./components/SeamlessVideoBackground";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import "./App.css";
@@ -50,6 +51,9 @@ function App() {
   if (viewMode === "landing") {
     return (
       <div className="lp-page bg-[#026834]">
+        {/* 60 FPS Frame-Precise Seamless Infinite Video Background */}
+        <SeamlessVideoBackground src="/assets/back.mp4" />
+
         <Header
           onBackToHome={openLanding}
           onOpenGenerator={openGenerator}

@@ -3,6 +3,7 @@ import HHGoaCard from "./HHGoaCard";
 import UploadPhoto from "./UploadPhoto";
 import DownloadButton from "./DownloadButton";
 import ShareButton from "./ShareButton";
+import SeamlessVideoBackground from "./SeamlessVideoBackground";
 import { generateRandomAttributes } from "../utils/randomGenerator";
 import { ArrowLeft, RefreshCw, Sparkles, Camera } from "lucide-react";
 import "../styles/BlendedAgendaGenerator.css";
@@ -54,6 +55,12 @@ export default function BlendedAgendaGenerator({ onBackToHome }) {
 
   return (
     <div className="blended-agenda-wrapper">
+      {/* ── 60 FPS Frame-Precise Seamless Infinite Video Background for 2nd Page ── */}
+      <SeamlessVideoBackground
+        src="/assets/agenda-back.mp4"
+        blurAmount="6px"
+        overlayColor="rgba(0, 31, 14, 0.45)"
+      />
       {/* ── Top Header Navigation Bar ── */}
       <div className="shack-header-bar">
         <button
